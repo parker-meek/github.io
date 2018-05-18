@@ -3,11 +3,15 @@ title: "Final Project"
 output: html_document
 ---
 
-Introduction
-The NFL is a multibillion dollar industry. In today's game there has been a premium placed upon the passing game and while there has been plenty of research done on the growth of QBs the growth of WR's has not been as analyzed. With the premium placed on passing the amount pass catchers recieve has been constantly growing as well. As such we will determine whether or not one can predict who is under and over performing. By this I mean we will try to discover based on how many receptions a player has made in a season how many touch downs a player can be expected to make.  This will also help NFL teams determine how effective a particular player is and how effective they can expect them to be.
+<h2>Introduction </h2>
+
+The NFL is a multibillion dollar industry. In today's game there has been a premium placed upon the passing game and while there has been plenty of research done on the growth of QBs the growth of WR's has not been as analyzed. With the premium placed on passing the amount pass catchers recieve has been constantly growing as well. As such we will determine whether or not one can predict who is under and over performing. By this I mean we will try to discover based on how many receptions a player has made in a season how many touch downs a player can be expected to make.  This will also help NFL teams determine how effective a particular player is and how effective they can expect them to be. This is also important to many fantasy football owners as those who exceed expectations consistently can help them win money as well.
 
 
 This is a tutorial on the data science pipeline. For this introduction we will be investegating how effective an NFL player has been in terms of turning their receptions into touchdowns. To do this we will be comparing the touchdown:rec ratio in a single season for each individual who has caught at least one reception since 2007.
+
+<h2>1. Gathering and Curating Data </h2>
+
 The first step is to gather together the data. For this part of the process we are accessing the stats provided by NFL.com at :http://www.nfl.com/stats/categorystats?tabSeq=0&statisticCategory=RECEIVING&conference=null&season=2017&seasonType=REG&d-447263-s=RECEIVING_YARDS&d-447263-o=2&d-447263-n=1 .
 For this we are accessing the html page provided and extracting the  the table from the page. To extract this data we are going to use the rvest, magrittr, and tidyverse libraries. After extracting the first pages table we move the url to the next page and also extracted the table from that as well. Once extracted one can then use rbind to append the newly found tables to the existing table.
 ```{r}
@@ -99,8 +103,12 @@ tight_end_table<-select(tight_end_table,-Team, -Lng)
 running_back_table<- select(running_back_table,-Team, -Lng)
 ```
 
+<h2> 2. Exploratory Analysis </h2>
 
-After curating the table we will look at how the data looks in general and then break it down by year.
+Exploratory ANalysis means looking at our data and getting a general feel for how it looks and starting to understand some of the trends. We do this by looking at simply graphs of the data as well as looking at some of the statistical tendencies of the data. 
+
+
+After curating the table we will look at how the data looks in general and then break it down by year and by position.
 
 ```{r exploratory Analysis}
 all_table %>%
@@ -168,7 +176,7 @@ Other important things to look at when trying to understand the data are things 
 
 
 
-3. Machine Learning
+<h2> 3. Machine Learning </h2>
 
   Machine learning is using data we already have in order to look ahead and try to predict the future. We are going to use machine learning today to see if we can predict how many touchdowns a player has scored based off of the number of receptions they have.
 
@@ -249,21 +257,24 @@ summary(tree.rec)
 plot(tree.rec)
 text(tree.rec,pretty=0)
 ```
-Things that can be taken away from this tree are that the tree has 5 leaves and that the deviance which is sum of squared errors is 2.83.
+Things that can be taken away from this tree are that the tree has 5 leaves and that the deviance which is sum of squared errors is 2.83. What this means is that when squaring the result minus the actual over every test case and then squaring it followed by summing it together we are a total of 2.83 touchdowns off our entire data set. Considering the number of examples we have I believe that this is a a fairly good heuristic to fit over the entire pass catching NFL.
 
 
 
 
 
 
-Conclusion
-  In conclusion the position of a player was not as important as the year in which they played as each season affected a players effectiveness. However through the research I was able to find both a linear regression model and a tree model that would be useful in determing a single pass catchers effectiveness.
+<h2>Conclusion</h2>
+
+  In conclusion the position of a player was not as important as the year in which they played as each season affected a players effectiveness. However through the research I was able to find both a linear regression model and a tree model that would be useful in determing a single pass catchers effectiveness. This is useful not just for NFL front offices but also the millions who play fantasy football as they can now get a leg up on their competition.
 
 
 
+<h2> Links I used:</h2>
 
-Links I used:
 These are some links that can help your understanding if you are confused about any of the topics I talked about.
+
+Data Manipulation: https://cyberhelp.sesync.org/data-manipulation-in-R-lesson/2016/07/26/ 
 
 Trees: http://rstudio-pubs-static.s3.amazonaws.com/156481_80ee6ee3a0414fd38f5d3ad33d14c771.html
 
